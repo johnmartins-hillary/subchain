@@ -1,197 +1,119 @@
-import React, { useEffect, useState } from "react";
-import { Navigation } from "./components/Navigation";
-import { HeroSection } from "./components/HeroSection";
-import { HowItWorksSection } from "./components/HowItWorksSection";
-import { AboutSection } from "./components/AboutSection";
-import { TestimonialsSection } from "./components/TestimonialsSection";
-import { FAQSection } from "./components/FAQSection";
-import { Footer } from "./components/Footer";
-import { SignUpPage } from "./components/auth/SignUpPage";
-import { VerifyEmailPage } from "./components/auth/VerifyEmailPage";
-import { SignInPage } from "./components/auth/SignInPage";
-import { DashboardLayout } from "./components/dashboard/DashboardLayout";
-import { MyFundingPage } from "./components/dashboard/MyFundingPage";
-import { CommunitiesPage } from "./components/dashboard/CommunitiesPage";
-import { SettingsPage } from "./components/dashboard/SettingsPage";
-import { Toaster } from "./components/ui/sonner";
-import { ProfilePage } from "./components/dashboard/ProfilePage";
-import { VoteCommunityPage } from "./components/dashboard/VoteCommunityPage";
-import { CreateCommunityPage } from "./components/dashboard/CreateCommunity";
-import Configurations from "./components/dashboard/Config";
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  useLocation,
+} from "react-router-dom";
+import { motion, AnimatePresence } from "framer-motion";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import LandingPage from "./components/pages/LandingPage";
+import BrowsePlans from "./components/pages/BrowsePlans";
+import PlanDetails from "./components/pages/PlanDetails";
+import SubscriberDashboard from "./components/pages/SubscriberDashboard";
+import CreatorDashboard from "./components/pages/CreatorDashboard";
+import Profile from "./components/pages/Profile";
 
-type PageState = "landing" | "signup" | "verify-email" | "signin" | "dashboard";
-type DashboardPage =
-  | "profile"
-  | "communities"
-  | "fund-community"
-  | "settings"
-  | "create-communities"
-  | "configurations";
+function AnimatedRoutes() {
+  const location = useLocation();
+
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route
+          path="/"
+          element={
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <LandingPage />
+            </motion.div>
+          }
+        />
+        <Route
+          path="/plans"
+          element={
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <BrowsePlans />
+            </motion.div>
+          }
+        />
+        <Route
+          path="/plan/:id"
+          element={
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <PlanDetails />
+            </motion.div>
+          }
+        />
+        <Route
+          path="/dashboard"
+          element={
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <SubscriberDashboard />
+            </motion.div>
+          }
+        />
+        <Route
+          path="/creator"
+          element={
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <CreatorDashboard />
+            </motion.div>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+            >
+              <Profile />
+            </motion.div>
+          }
+        />
+      </Routes>
+    </AnimatePresence>
+  );
+}
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState<PageState>("landing");
-  const [currentDashboardPage, setCurrentDashboardPage] =
-    useState<DashboardPage>("profile");
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  useEffect(() => {
-    // Smooth scrolling for anchor links (only on landing page)
-    if (currentPage === "landing") {
-      const anchors =
-        document.querySelectorAll<HTMLAnchorElement>('a[href^="#"]');
-
-      const handleClick = (e: MouseEvent, href: string) => {
-        e.preventDefault();
-        const target = document.querySelector(href);
-        if (target) {
-          target.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-          });
-        }
-      };
-
-      anchors.forEach((anchor) => {
-        const href = anchor.getAttribute("href");
-        if (href) {
-          anchor.addEventListener("click", (e) => handleClick(e, href));
-        }
-      });
-
-      // Optional cleanup to avoid multiple bindings
-      return () => {
-        anchors.forEach((anchor) => {
-          const href = anchor.getAttribute("href");
-          if (href) {
-            anchor.removeEventListener("click", (e) => handleClick(e, href));
-          }
-        });
-      };
-    }
-  }, [currentPage]);
-
-  // Authentication handlers
-  const handleSignUp = () => setCurrentPage("signup");
-  const handleSignIn = () => setCurrentPage("signin");
-  const handleVerifyEmail = () => setCurrentPage("verify-email");
-  const handleBackToLanding = () => setCurrentPage("landing");
-  const handleAuthSuccess = () => {
-    setIsAuthenticated(true);
-    setCurrentPage("dashboard");
-    setCurrentDashboardPage("profile");
-  };
-
-  // Dashboard navigation
-  const handleDashboardNavigate = (page: string) => {
-    setCurrentDashboardPage(page as DashboardPage);
-  };
-
-  const handleSignOut = () => {
-    setIsAuthenticated(false);
-    setCurrentPage("landing");
-  };
-
-  const handleGoToDashboard = () => {
-    if (isAuthenticated) {
-      setCurrentPage("dashboard");
-    }
-  };
-
-  // Render authentication pages
-  if (currentPage === "signup") {
-    return (
-      <>
-        <SignUpPage
-          onVerifyEmail={handleVerifyEmail}
-          onSignIn={handleSignIn}
-          onBack={handleBackToLanding}
-        />
-        <Toaster />
-      </>
-    );
-  }
-
-  if (currentPage === "verify-email") {
-    return (
-      <>
-        <VerifyEmailPage
-          onSignIn={handleSignIn}
-          onBack={() => setCurrentPage("signup")}
-        />
-        <Toaster />
-      </>
-    );
-  }
-
-  if (currentPage === "signin") {
-    return (
-      <>
-        <SignInPage
-          onSignUp={handleSignUp}
-          onSuccess={handleAuthSuccess}
-          onBack={handleBackToLanding}
-        />
-        <Toaster />
-      </>
-    );
-  }
-
-  // Render dashboard
-  if (currentPage === "dashboard" && isAuthenticated) {
-    const renderDashboardContent = () => {
-      switch (currentDashboardPage) {
-        case "profile":
-          return <ProfilePage />;
-        case "create-communities":
-          return <CreateCommunityPage />;
-        case "communities":
-          return <VoteCommunityPage />;
-        case "fund-community":
-          return <CommunitiesPage />;
-        case "settings":
-          return <SettingsPage />;
-        case "configurations":
-          return <Configurations />;
-        default:
-          return <MyFundingPage />;
-      }
-    };
-
-    return (
-      <>
-        <DashboardLayout
-          currentPage={currentDashboardPage}
-          onNavigate={handleDashboardNavigate}
-          onSignOut={handleSignOut}
-        >
-          {renderDashboardContent()}
-        </DashboardLayout>
-        <Toaster />
-      </>
-    );
-  }
-
-  // Landing page with auth integration
   return (
-    <>
-      <div className="min-h-screen">
-        <Navigation
-          onSignUp={handleSignUp}
-          onSignIn={handleSignIn}
-          isAuthenticated={isAuthenticated}
-          onSignOut={handleSignOut}
-          onDashboard={handleGoToDashboard}
-        />
-        <main>
-          <HeroSection onGetStarted={handleSignUp} />
-          <HowItWorksSection />
-          <AboutSection />
-          <TestimonialsSection />
-          <FAQSection />
+    <Router>
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <main className="flex-1">
+          <AnimatedRoutes />
         </main>
         <Footer />
       </div>
-      <Toaster />
-    </>
+    </Router>
   );
 }

@@ -1,147 +1,223 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { Mail, Phone, MapPin, Facebook, Twitter, Linkedin } from "lucide-react";
-import { Button } from "./ui/button";
+import { Github, Twitter, MessageCircle } from "lucide-react";
 
-export function Footer() {
+export default function Footer() {
+  const currentYear = new Date().getFullYear();
+
   return (
-    <footer className="bg-gray-900 text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Company Info */}
+    <motion.footer
+      className="bg-muted border-t"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      viewport={{ once: true }}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {/* Brand */}
           <motion.div
-            initial={{ y: 30, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6 }}
+            className="col-span-1 sm:col-span-2 lg:col-span-1"
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
             viewport={{ once: true }}
-            className="space-y-4"
           >
-           <img src="/assets/Logo.png" alt="footer-logo" />
-            <p className="text-gray-300 leading-relaxed">
-              Powering African communities with clean, reliable, and affordable
-              solar energy solutions.
+            <div className="flex items-center space-x-2 mb-4">
+              <motion.div
+                className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center"
+                whileHover={{ scale: 1.1, rotate: 5 }}
+                transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              >
+                <span className="text-white font-bold text-sm">SC</span>
+              </motion.div>
+              <span className="font-bold text-lg">SubChain</span>
+            </div>
+            <p className="text-sm text-muted-foreground leading-relaxed max-w-sm">
+              Decentralized subscription infrastructure built on Sui blockchain.
             </p>
+          </motion.div>
+
+          {/* Platform */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 }}
+            viewport={{ once: true }}
+          >
+            <h4 className="font-medium mb-4">Platform</h4>
+            <ul className="space-y-3 text-sm text-muted-foreground">
+              <motion.li
+                whileHover={{ x: 5 }}
+                transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              >
+                <Link
+                  to="/plans"
+                  className="hover:text-foreground transition-colors"
+                >
+                  Browse Plans
+                </Link>
+              </motion.li>
+              <motion.li
+                whileHover={{ x: 5 }}
+                transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              >
+                <Link
+                  to="/creator"
+                  className="hover:text-foreground transition-colors"
+                >
+                  Create Plan
+                </Link>
+              </motion.li>
+              <motion.li
+                whileHover={{ x: 5 }}
+                transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              >
+                <Link
+                  to="/dashboard"
+                  className="hover:text-foreground transition-colors"
+                >
+                  Dashboard
+                </Link>
+              </motion.li>
+              <motion.li
+                whileHover={{ x: 5 }}
+                transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              >
+                <a href="#" className="hover:text-foreground transition-colors">
+                  Analytics
+                </a>
+              </motion.li>
+            </ul>
+          </motion.div>
+
+          {/* Resources */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            viewport={{ once: true }}
+          >
+            <h4 className="font-medium mb-4">Resources</h4>
+            <ul className="space-y-3 text-sm text-muted-foreground">
+              <motion.li
+                whileHover={{ x: 5 }}
+                transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              >
+                <a href="#" className="hover:text-foreground transition-colors">
+                  Documentation
+                </a>
+              </motion.li>
+              <motion.li
+                whileHover={{ x: 5 }}
+                transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              >
+                <a href="#" className="hover:text-foreground transition-colors">
+                  API Reference
+                </a>
+              </motion.li>
+              <motion.li
+                whileHover={{ x: 5 }}
+                transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              >
+                <a href="#" className="hover:text-foreground transition-colors">
+                  Smart Contracts
+                </a>
+              </motion.li>
+              <motion.li
+                whileHover={{ x: 5 }}
+                transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              >
+                <a href="#" className="hover:text-foreground transition-colors">
+                  Support
+                </a>
+              </motion.li>
+            </ul>
+          </motion.div>
+
+          {/* Community */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.4 }}
+            viewport={{ once: true }}
+          >
+            <h4 className="font-medium mb-4">Community</h4>
             <div className="flex space-x-4">
-              <Facebook className="w-6 h-6 text-gray-400 hover:text-white cursor-pointer transition-colors" />
-              <Twitter className="w-6 h-6 text-gray-400 hover:text-white cursor-pointer transition-colors" />
-              <Linkedin className="w-6 h-6 text-gray-400 hover:text-white cursor-pointer transition-colors" />
+              <motion.a
+                href="#"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+                whileHover={{ scale: 1.2, y: -2 }}
+                whileTap={{ scale: 0.9 }}
+                transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              >
+                <Twitter className="w-5 h-5" />
+                <span className="sr-only">Twitter</span>
+              </motion.a>
+              <motion.a
+                href="#"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+                whileHover={{ scale: 1.2, y: -2 }}
+                whileTap={{ scale: 0.9 }}
+                transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              >
+                <MessageCircle className="w-5 h-5" />
+                <span className="sr-only">Discord</span>
+              </motion.a>
+              <motion.a
+                href="#"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+                whileHover={{ scale: 1.2, y: -2 }}
+                whileTap={{ scale: 0.9 }}
+                transition={{ type: "spring", stiffness: 400, damping: 30 }}
+              >
+                <Github className="w-5 h-5" />
+                <span className="sr-only">GitHub</span>
+              </motion.a>
             </div>
-          </motion.div>
-
-          {/* Quick Links */}
-          <motion.div
-            initial={{ y: 30, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.1 }}
-            viewport={{ once: true }}
-          >
-            <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
-            <ul className="space-y-2">
-              <li>
-                <a
-                  href="#home"
-                  className="text-gray-300 hover:text-white transition-colors"
-                >
-                  Home
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#how-it-works"
-                  className="text-gray-300 hover:text-white transition-colors"
-                >
-                  How it works
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#about"
-                  className="text-gray-300 hover:text-white transition-colors"
-                >
-                  About
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#faq"
-                  className="text-gray-300 hover:text-white transition-colors"
-                >
-                  FAQ
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#."
-                  className="text-gray-300 hover:text-white transition-colors"
-                >
-                  Contact
-                </a>
-              </li>
-            </ul>
-          </motion.div>
-
-          {/* Services */}
-          <motion.div
-            initial={{ y: 30, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            viewport={{ once: true }}
-          >
-            <h3 className="text-lg font-semibold mb-4">Services</h3>
-            <ul className="space-y-2">
-              <li className="text-gray-300">Solar Installation</li>
-              <li className="text-gray-300">Community Assessment</li>
-              <li className="text-gray-300">24/7 Support</li>
-              <li className="text-gray-300">Maintenance</li>
-              <li className="text-gray-300">Financing Options</li>
-            </ul>
-          </motion.div>
-
-          {/* Contact Info */}
-          <motion.div
-            initial={{ y: 30, opacity: 0 }}
-            whileInView={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            viewport={{ once: true }}
-          >
-            <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
-            <div className="space-y-3">
-              <div className="flex items-center">
-                <Mail className="w-5 h-5 text-yellow-400 mr-3" />
-                <span className="text-gray-300">info@liteafrika.com</span>
-              </div>
-              <div className="flex items-center">
-                <Phone className="w-5 h-5 text-yellow-400 mr-3" />
-                <span className="text-gray-300">+234 (0) 123 456 789</span>
-              </div>
-              <div className="flex items-start">
-                <MapPin className="w-5 h-5 text-yellow-400 mr-3 mt-1" />
-                <span className="text-gray-300">
-                  Lagos, Nigeria
-                  <br />
-                  Nairobi, Kenya
-                </span>
-              </div>
-            </div>
-            <Button className="bg-[#FFC404] text-black hover:bg-yellow-300 mt-4 w-full">
-              Get Started Today
-            </Button>
           </motion.div>
         </div>
 
         <motion.div
+          className="border-t mt-8 pt-6 sm:pt-8 flex flex-col sm:flex-row justify-between items-center gap-4"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
           viewport={{ once: true }}
-          className="border-t border-gray-700 mt-12 pt-8 text-center text-gray-400"
         >
-          <p>
-            &copy; 2024 LiteAfrika. All rights reserved. Powering Africa with
-            clean energy.
+          <p className="text-sm text-muted-foreground text-center sm:text-left">
+            © {currentYear} SubChain. All rights reserved.
           </p>
+          <div className="flex flex-wrap justify-center sm:justify-end gap-6">
+            <motion.a
+              href="#"
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              whileHover={{ y: -1 }}
+              transition={{ type: "spring", stiffness: 400, damping: 30 }}
+            >
+              Privacy
+            </motion.a>
+            <motion.a
+              href="#"
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              whileHover={{ y: -1 }}
+              transition={{ type: "spring", stiffness: 400, damping: 30 }}
+            >
+              Terms
+            </motion.a>
+            <motion.a
+              href="#"
+              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+              whileHover={{ y: -1 }}
+              transition={{ type: "spring", stiffness: 400, damping: 30 }}
+            >
+              Security
+            </motion.a>
+          </div>
         </motion.div>
       </div>
-    </footer>
+    </motion.footer>
   );
 }
