@@ -1,4 +1,4 @@
-# SubChain Frontend
+# SubChain
 
 **SubChain** is the first decentralized subscription management platform built on the Sui blockchain. This frontend provides a seamless interface for service providers to create subscription plans and for users to manage and subscribe to recurring services securely on-chain.
 
