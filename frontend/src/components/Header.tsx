@@ -18,7 +18,6 @@ export default function Header() {
   ];
 
   const connectWallet = () => {
-    // Mock wallet connection
     setIsWalletConnected(true);
   };
 
