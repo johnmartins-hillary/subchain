@@ -95,21 +95,23 @@ module subscription::manager {
 
     // ============ Init Function ============
     
-    fun init(ctx: &mut TxContext) {
-        // Create admin capability
-        let admin_cap = AdminCap { id: object::new(ctx) };
-        transfer::transfer(admin_cap, tx_context::sender(ctx));
+  public entry fun create_registry(ctx: &mut TxContext): ID {
+    let registry = SubscriptionRegistry {
+        id: object::new(ctx),
+        plans: table::new(ctx),
+        user_subscriptions: table::new(ctx),
+        total_plans_created: 0,
+        total_active_subscriptions: 0,
+    };
 
-        // Create subscription registry
-        let registry = SubscriptionRegistry {
-            id: object::new(ctx),
-            plans: table::new(ctx),
-            user_subscriptions: table::new(ctx),
-            total_plans_created: 0,
-            total_active_subscriptions: 0,
-        };
-        transfer::share_object(registry);
-    }
+    let registry_id = object::uid_to_inner(&registry.id);
+
+    // Share object so it's accessible by others
+    transfer::share_object(registry);
+
+    // Return the ID so frontend/CLI can store it
+    registry_id
+}
 
     // ============ Plan Management Functions ============
     
