@@ -1,0 +1,91 @@
+stages:
+  - build
+  - develop
+  - staging
+  - main
+variables:
+  CI: "false"
+
+builddevelop:
+  stage: build
+  image: node:20
+  script:
+    - rm -rf node-modules && rm -rf package-lock.json
+    - cat $ENV_DEV > .env
+    - yarn
+    - yarn run build
+  artifacts:
+    expire_in: 1 hour
+    paths:
+      - build
+  only:
+    - develop
+
+buildstaging:
+  stage: build
+  image: node:20
+  script:
+    - rm -rf node-modules && rm -rf package-lock.json
+    - cat $ENV_STAGING > .env
+    - yarn
+    - yarn run build
+  artifacts:
+    expire_in: 1 hour
+    paths:
+      - build
+  only:
+    - staging
+
+buildmain:
+  stage: build
+  image: node:20
+  script:
+    - rm -rf node-modules && rm -rf package-lock.json
+    - cat $ENV_PROD > .env
+    - yarn
+    - yarn run build
+  artifacts:
+    expire_in: 1 hour
+    paths:
+      - build
+  only:
+    - main
+
+develop:
+  only:
+    refs:
+      - develop
+  stage: develop
+  script:
+    - cat $SSH_STAGING_VM_PRIVATE_KEY > id_rsa
+    - chmod -R 600 id_rsa
+    - ls && scp -i id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r build/* $VM_USER@$VM_STAGING_ADDRESS:/var/www/admin.dev.intasida.com
+  artifacts:
+    paths:
+      - build
+
+staging:
+  only:
+    refs:
+      - staging
+  stage: staging
+  script:
+    - cat $SSH_STAGING_VM_PRIVATE_KEY > id_rsa
+    - chmod -R 600 id_rsa
+    - ls && scp -i id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r build/* $VM_USER@$VM_STAGING_ADDRESS:/var/www/admin.staging.intasida.com
+  artifacts:
+    paths:
+      - build
+
+main:
+  only:
+    refs:
+      - main
+  stage: main
+  script:
+    - cat $SSH_PROD_VM_PRIVATE_KEY > id_rsa
+    - chmod -R 600 id_rsa
+    - ls && scp -i id_rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -r build/* $VM_USER@$VM_PROD_ADDRESS:/var/www/admin.intasida.com
+  artifacts:
+    paths:
+      - build

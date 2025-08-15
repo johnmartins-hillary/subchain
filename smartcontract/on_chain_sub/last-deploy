@@ -1,0 +1,8 @@
+package_id = 0x45cc4662a6a47f675a16056084d542540c07ab0debf36c4a7fc1a3316a4164e6
+version = 1
+
+Digest = 5r3vXN9S3rgLJrkpbonu13UhnKXMN8cTgUk9wyQ6LYxB
+
+modules = manager
+
+owner = 0xd82b3151a15b36aee3859449df041845f219e8b557914d5776f9d468fe35dd20
